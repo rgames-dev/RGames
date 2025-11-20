@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Álomfaló</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: black;
+  }
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  /* ÚJ: Game Wrapper stílusok a kérésnek megfelelően */
+  #game-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    position: relative; /* A gomb pozicionálásához */
+  }
+  
+  /* ÚJ: Fullscreen gomb stílusa (esztétikus illeszkedés) */
+  #fullscreen-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.6);
+    color: #34d399; /* Emerald-400 a témához */
+    border: 1px solid #34d399;
+    padding: 8px 12px;
+    font-family: monospace;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+  }
+  #fullscreen-btn:hover {
+    background: #34d399;
+    color: black;
+    box-shadow: 0 0 15px rgba(52, 211, 153, 0.6);
+  }
+
+  #root {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    /* Képarány kényszerítése (9:16), miközben elfér a nézetben */
+    /* A 75vh/75vw használata csökkenti a konténer méretét, ami "nagyítja" a tartalmat */
+    max-width: calc(75vh * 9 / 16);
+    max-height: calc(75vw * 16 / 9);
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+    /* Finom ragyogás a jobb megjelenés érdekében fekete háttéren */
+    box-shadow: 0 0 25px rgba(100, 255, 255, 0.15);
+  }
+</style>
+<link rel="stylesheet" href="/index.css">
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.27.0",
+    "path": "https://aistudiocdn.com/path@^0.12.7",
+    "vite": "https://aistudiocdn.com/vite@^7.2.2",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+  }
+}
+</script>
+  <script type="module" crossorigin src="./assets/index-CxIJFLtW.js"></script>
+</head>
+  <body>
+    <div id="game-wrapper">
+        <div id="root"></div>
+        <button id="fullscreen-btn">Fullscreen</button>
+    </div>
+    <script>
+        // Fullscreen logika a specifikáció szerint
+        document.getElementById("fullscreen-btn").addEventListener("click", () => {
+            const wrapper = document.getElementById("game-wrapper");
+            if (!document.fullscreenElement) {
+                wrapper.requestFullscreen().catch(err => console.error(err));
+            } else {
+                document.exitFullscreen();
+            }
+        });
+    </script>
+  </body>
+</html>
