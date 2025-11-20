@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,61 +15,120 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: black;
+    background-color: #050505;
   }
   body {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  /* ÚJ: Game Wrapper stílusok a kérésnek megfelelően */
+  
+  /* NEURAL UPLINK INTERFACE */
   #game-wrapper {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: black;
-    position: relative; /* A gomb pozicionálásához */
+    position: relative;
+    
+    /* MÓDOSÍTÁS: Rács helyett GIF háttér */
+    background-color: #020408;
+    background-image: url('./assets/keret-BFkIPovR.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover; /* Kitölti a teljes képernyőt */
+    
+    /* Sötét vignetta a széleken, hogy fókuszáltabb legyen a közép */
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.9);
   }
-  
-  /* ÚJ: Fullscreen gomb stílusa (esztétikus illeszkedés) */
+
+  /* CRT Scanline Effect Overlay for Wrapper - Megtartva a hangulatért, de halványítva */
+  #game-wrapper::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+  }
+
+  /* Decorative Tech Elements */
+  .hud-element {
+    position: absolute;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: rgba(52, 211, 153, 0.6);
+    font-size: 10px;
+    pointer-events: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    z-index: 3; /* GIF fölött legyen */
+    text-shadow: 1px 1px 2px black; /* Olvashatóság a GIF felett */
+  }
+
+  /* Top Left Status */
+  .hud-top-left {
+    top: 20px;
+    left: 20px;
+    border-left: 2px solid rgba(52, 211, 153, 0.5);
+    padding-left: 10px;
+  }
+
+  /* Bottom Left Data Stream */
+  .hud-bottom-left {
+    bottom: 20px;
+    left: 20px;
+    opacity: 0.5;
+  }
+
   #fullscreen-btn {
     position: absolute;
     bottom: 20px;
     right: 20px;
     z-index: 9999;
     background: rgba(0, 0, 0, 0.6);
-    color: #34d399; /* Emerald-400 a témához */
-    border: 1px solid #34d399;
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.3);
     padding: 8px 12px;
     font-family: monospace;
+    font-size: 12px;
     font-weight: bold;
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border-radius: 4px;
+    border-radius: 6px;
     transition: all 0.3s ease;
     backdrop-filter: blur(4px);
+    opacity: 0.5;
   }
   #fullscreen-btn:hover {
     background: #34d399;
     color: black;
-    box-shadow: 0 0 15px rgba(52, 211, 153, 0.6);
+    border-color: #34d399;
+    box-shadow: 0 0 15px rgba(52, 211, 153, 0.4);
+    opacity: 1;
   }
 
+  /* GAME WINDOW */
   #root {
     position: relative;
-    width: 100vw;
-    height: 100vh;
-    /* Képarány kényszerítése (9:16), miközben elfér a nézetben */
-    /* A 75vh/75vw használata csökkenti a konténer méretét, ami "nagyítja" a tartalmat */
-    max-width: calc(75vh * 9 / 16);
-    max-height: calc(75vw * 16 / 9);
+    z-index: 10;
+    height: min(95vh, calc(95vw * 16 / 9));
+    width: auto; 
     aspect-ratio: 9 / 16;
+    
     overflow: hidden;
-    /* Finom ragyogás a jobb megjelenés érdekében fekete háttéren */
-    box-shadow: 0 0 25px rgba(100, 255, 255, 0.15);
+    border-radius: 30px;
+    border: 1px solid #334155;
+    /* Cyan glow behind the screen */
+    box-shadow: 0 0 80px rgba(34, 211, 238, 0.05), 0 0 0 1px rgba(52, 211, 153, 0.1);
+    background: black;
   }
 </style>
 <link rel="stylesheet" href="/index.css">
@@ -85,15 +145,26 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="./assets/index-CxIJFLtW.js"></script>
+  <script type="module" crossorigin src="./assets/index-BOhhbCOQ.js"></script>
 </head>
   <body>
     <div id="game-wrapper">
+        <!-- Decorative HUD Elements -->
+        <div class="hud-element hud-top-left">
+            NEURAL UPLINK: STABLE<br>
+            SIMULATION ID: OMEGA-9<br>
+            LATENCY: 12ms
+        </div>
+        <div class="hud-element hud-bottom-left">
+            STREAMING DATA...<br>
+            ENCRYPTED PACKETS<br>
+            AWAITING INPUT
+        </div>
+
         <div id="root"></div>
-        <button id="fullscreen-btn">Fullscreen</button>
+        <button id="fullscreen-btn">FS</button>
     </div>
     <script>
-        // Fullscreen logika a specifikáció szerint
         document.getElementById("fullscreen-btn").addEventListener("click", () => {
             const wrapper = document.getElementById("game-wrapper");
             if (!document.fullscreenElement) {
