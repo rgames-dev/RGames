@@ -37,7 +37,10 @@
     background-image: url('./assets/keret-BFkIPovR.gif');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover; /* Kitölti a teljes képernyőt */
+    background-size: 65% 125%;     /* kitölti torzítással → keretnél tökéletes */
+    background-attachment: fixed;   /* fix háttér */
+    min-height: 100vh;              /* mobilokon is teljes magasság */
+    overflow: hidden;
     
     /* Sötét vignetta a széleken, hogy fókuszáltabb legyen a közép */
     box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.9);
