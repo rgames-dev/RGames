@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Álomfaló</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #050505;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* NEURAL UPLINK INTERFACE */
+    #game-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+
+      background-color: #020408;
+      background-image: url('/keret.gif');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+
+      box-shadow: inset 0 0 150px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Decorative Tech Elements */
+    .hud-element {
+      position: absolute;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      color: rgba(52, 211, 153, 0.6);
+      font-size: 10px;
+      pointer-events: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      z-index: 50;
+      text-shadow: 1px 1px 2px black;
+    }
+
+    /* Top Left Status */
+    .hud-top-left {
+      top: 20px;
+      left: 20px;
+      border-left: 2px solid rgba(52, 211, 153, 0.5);
+      padding-left: 10px;
+    }
+
+    /* Bottom Left Data Stream */
+    .hud-bottom-left {
+      bottom: 20px;
+      left: 20px;
+      opacity: 0.5;
+    }
+
+    /* FS Button - Original Location */
+    #fs-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      pointer-events: auto;
+      cursor: pointer;
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.6);
+      color: rgba(52, 211, 153, 0.8);
+      font-family: monospace;
+      font-size: 10px;
+      font-weight: bold;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    #fs-btn:hover {
+      background: rgba(52, 211, 153, 0.2);
+      color: #fff;
+      border-color: rgba(52, 211, 153, 0.8);
+    }
+
+    #fs-btn.active {
+      opacity: 0.3;
+      padding: 3px 6px;
+      font-size: 8px;
+    }
+
+    #fs-btn.active:hover {
+      opacity: 0.8;
+    }
+
+    /* GAME WINDOW */
+    #root {
+      position: relative;
+      z-index: 10;
+      height: min(95vh, calc(95vw * 16 / 9));
+      width: auto;
+      aspect-ratio: 9 / 16;
+
+      overflow: hidden;
+      border-radius: 30px;
+      border: 1px solid #334155;
+      /* Cyan glow behind the screen */
+      box-shadow: 0 0 80px rgba(34, 211, 238, 0.05), 0 0 0 1px rgba(52, 211, 153, 0.1);
+      background: black;
+    }
+  </style>
+  <script type="module" crossorigin src="./assets/index-lyxqldIG.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-C-QjpVDU.css">
+</head>
+
+<body>
+  <div id="game-wrapper">
+    <!-- Decorative HUD Elements - FPS moved inside React -->
+    <div class="hud-element hud-top-left">
+      NEURAL UPLINK: STABLE<br>
+      SIMULATION ID: OMEGA-9
+    </div>
+    <div class="hud-element hud-bottom-left">
+      STREAMING DATA...<br>
+      ENCRYPTED PACKETS<br>
+      AWAITING INPUT
+    </div>
+
+    <!-- Fullscreen Button -->
+    <button id="fs-btn">TELJES KÉPERNYŐ</button>
+
+    <div id="root"></div>
+  </div>
+  <script>
+    const fsBtn = document.getElementById('fs-btn');
+    const wrapper = document.getElementById('game-wrapper');
+
+    fsBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        wrapper.requestFullscreen().catch(err => {
+          console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement) {
+        fsBtn.textContent = 'ESC';
+        fsBtn.classList.add('active');
+      } else {
+        fsBtn.textContent = 'TELJES KÉPERNYŐ';
+        fsBtn.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+
+</html>
